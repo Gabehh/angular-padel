@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  padding-top: 100px;
+}
+
+.alert-dialog{
+  justify-content: flex-start;
+  display: none;
+  margin: 0;
+}
+
+
+.border-form{
+  border-color: red;
+}
