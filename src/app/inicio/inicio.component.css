@@ -1,0 +1,17 @@
+.title-section{
+  border: 2px solid #F44336;
+  border-radius: 18px;
+  text-align: center;
+  background-color: #F44336;
+  color: #FBE2FF;
+}
+
+.padding-section{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+::ng-deep body {
+  background-color: #E9ECEF !important;
+}
+

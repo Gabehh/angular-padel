@@ -5,3 +5,9 @@
 .jumbotron-margin{
   margin: 0px;
 }
+
+
+::ng-deep body {
+  background-color: #FFFFFF !important;
+}
+

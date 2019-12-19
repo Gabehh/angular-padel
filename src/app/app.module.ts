@@ -8,6 +8,7 @@ import { MenuComponent } from './menu/menu.component';
 import { IniciarComponent } from './menu/iniciar/iniciar.component';
 import { SalirComponent } from './menu/salir/salir.component';
 import { IndexComponent } from './index/index.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { IndexComponent } from './index/index.component';
     MenuComponent,
     IniciarComponent,
     SalirComponent,
-    IndexComponent
+    IndexComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
