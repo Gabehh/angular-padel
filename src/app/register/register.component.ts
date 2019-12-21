@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserRestService} from '../shared/services/user-rest.service';
-
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-register',
@@ -10,17 +10,12 @@ import {UserRestService} from '../shared/services/user-rest.service';
 export class RegisterComponent implements OnInit {
   error = false;
   newUser = {username: '', password: '', email: '', birthdate: 0};
-  constructor(private conex: UserRestService) { }
+  constructor(private conex: UserRestService, private  snackBar: MatSnackBar) { }
   ngOnInit() {
   }
   addUser() {
     this.conex.postUser(this.newUser).subscribe(
       (res:Response) => {
-
-        if(sessionStorage.getItem("token") != null){
-          alert("ya está conectado");
-        }
-
         console.log(res);
       },
       (error) => {
@@ -31,10 +26,8 @@ export class RegisterComponent implements OnInit {
   checkUser() {
     this.conex.checkUser(this.newUser.username,"").subscribe(
       (res) => {
-        console.log(res);
-      },
-      (error) => {
-        this.error = true;
+        this.snackBar.open("El usuario ya existe.","error",{duration:2500});
+        this.newUser.username = "";
       });
   }
 }

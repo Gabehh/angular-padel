@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component,  OnInit} from '@angular/core';
 import {UserRestService} from '../shared/services/user-rest.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,8 @@ import {UserRestService} from '../shared/services/user-rest.service';
 export class LoginComponent implements OnInit {
   error = false;
   user = {username: '', password: ''};
-  constructor(private conex: UserRestService) { }
+
+  constructor(private conex: UserRestService, private  snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -19,20 +21,12 @@ export class LoginComponent implements OnInit {
     this.conex.loginUser(this.user.username,this.user.password).subscribe(
       (res: Response) => {
         // @ts-ignore
-        sessionStorage.setItem("token", res)
+        sessionStorage.setItem("token", res);
+        window.location.reload();
       },
-      (error) => {
-        this.error = true;
-      });
-  }
-
-  checkUser() {
-    this.conex.checkUser(this.user.username,"").subscribe(
-      (res) => {
-        alert(res);
-      },
-      (error) => {
-        this.error = true;
+      (res)=> {
+        // @ts-ignore
+        this.snackBar.open(res.error,"error",{duration:2500});
       });
   }
 

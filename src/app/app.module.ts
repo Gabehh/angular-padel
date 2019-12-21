@@ -16,6 +16,8 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {UserRestService} from './shared/services/user-rest.service';
 import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -31,12 +33,18 @@ import { LoginComponent } from './login/login.component';
     RegisterComponent,
     LoginComponent
   ],
-    imports: [
-        HttpClientModule,
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule
-    ],
+  imports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
+
+  ],
   providers: [UserRestService],
   bootstrap: [AppComponent]
 })
