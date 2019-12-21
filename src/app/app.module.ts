@@ -15,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {UserRestService} from './shared/services/user-rest.service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {UserRestService} from './shared/services/user-rest.service';
     FooterComponent,
     InstalacionesComponent,
     ServiciosComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
     imports: [
         HttpClientModule,

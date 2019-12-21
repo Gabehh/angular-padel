@@ -15,6 +15,21 @@ export class RegisterComponent implements OnInit {
   }
   addUser() {
     this.conex.postUser(this.newUser).subscribe(
+      (res:Response) => {
+
+        if(sessionStorage.getItem("token") != null){
+          alert("ya está conectado");
+        }
+
+        console.log(res);
+      },
+      (error) => {
+        this.error = true;
+      });
+  }
+
+  checkUser() {
+    this.conex.checkUser(this.newUser.username,"").subscribe(
       (res) => {
         console.log(res);
       },
