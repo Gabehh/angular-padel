@@ -11,6 +11,10 @@ import { IndexComponent } from './index/index.component';
 import { FooterComponent } from './footer/footer.component';
 import { InstalacionesComponent } from './instalaciones/instalaciones.component';
 import { ServiciosComponent } from './servicios/servicios.component';
+import { RegisterComponent } from './register/register.component';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {UserRestService} from './shared/services/user-rest.service';
 
 @NgModule({
   declarations: [
@@ -22,13 +26,16 @@ import { ServiciosComponent } from './servicios/servicios.component';
     IndexComponent,
     FooterComponent,
     InstalacionesComponent,
-    ServiciosComponent
+    ServiciosComponent,
+    RegisterComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
+    imports: [
+        HttpClientModule,
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule
+    ],
+  providers: [UserRestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
