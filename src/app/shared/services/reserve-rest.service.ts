@@ -28,4 +28,12 @@ export class ReserveRestService{
     return this.http.post(this.url,reserva, {headers, observe:'response'});
   }
 
+  deleteReservation(id, token: string){
+    let headers: HttpHeaders;
+    headers = new HttpHeaders().set('Content-Type', 'application/json').set("Authorization",token);
+    return this.http.delete(this.url+"/"+id, {headers, observe:'response'});
+  }
+
+
+
 }

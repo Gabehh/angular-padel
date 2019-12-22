@@ -4,7 +4,8 @@ import {IndexComponent} from './index/index.component';
 import {InicioComponent} from './inicio/inicio.component';
 import { InstalacionesComponent } from './instalaciones/instalaciones.component';
 import { ServiciosComponent } from './servicios/servicios.component';
-import  {ReservasComponent} from './reservas/reservas.component';
+import {ReservasComponent} from './reservas/reservas.component';
+
 
 
 const routes: Routes = [
@@ -20,4 +21,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+
+}

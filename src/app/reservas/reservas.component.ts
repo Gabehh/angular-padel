@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ReserveRestService} from '../shared/services/reserve-rest.service';
 import {reserve} from '../shared/model/reserve.model';
-import {SelectionModel} from '@angular/cdk/collections';
 
-import {MatSnackBar} from '@angular/material';
+
+import {MatSnackBar, MatTableDataSource} from '@angular/material';
+import {SelectionModel} from '@angular/cdk/collections';
 
 const ELEMENT_DATA: reserve[] = [
 ];
@@ -18,37 +19,65 @@ export class ReservasComponent implements OnInit {
   reserva = {pista: 1, date: "", hour: ""};
   newReservation = {courtid: 0,rsvdatetime : 0 };
   displayedColumns: string[] = ['rsvId', 'courtId', 'rsvdateTime', 'rsvday', 'rsvtime'];
-  dataSource = ELEMENT_DATA;
+  displayedColumnsMy: string[] = ['select','rsvId', 'courtId', 'rsvdateTime', 'rsvday', 'rsvtime'];
   dataSourceWhole = ELEMENT_DATA;
   myReservations: reserve[] = [];
 
+
+  dataSource = new MatTableDataSource<reserve>(ELEMENT_DATA);
   selection = new SelectionModel<reserve>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
-
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.forEach(row => this.selection.select(row));
-  }
-
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
+    const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
   checkboxLabel(row?: reserve): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.rsvId}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.rsvId + 1}`;
   }
 
   constructor(private conex: ReserveRestService, private  snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getReservations();
+  }
+
+  deleteSelection(){
+    if(this.selection.selected.length>0) {
+      this.selection.selected.forEach(u => {
+        this.conex.deleteReservation(u.rsvId, sessionStorage.getItem("token")).subscribe(
+          (res) => {
+            let token = res.headers.get("Authorization");
+            if(token!=null){
+              sessionStorage.setItem("token",token);
+            }
+          },
+          (error) => {
+            this.snackBar.open(error.error, "error", {duration: 7000});
+          }
+        )
+      });
+      this.selection.deselect();
+      this.snackBar.open("Reservas eliminadas", "Success", {duration: 2000});
+      this.getReservations();
+      this.getAllReservations();
+    }
+    else{
+      this.snackBar.open("Seleccione al menos una reserva", "Alerta", {duration: 2000});
+    }
   }
 
   getReservations(){
@@ -58,7 +87,7 @@ export class ReservasComponent implements OnInit {
         sessionStorage.setItem("token",token);
         let body = res.body;
         this.myReservations = <reserve[]>body;
-        this.dataSource = this.myReservations;
+        this.dataSource.data = this.myReservations;
         this.countReservations = this.myReservations.length;
       },
       (error) => {
@@ -66,6 +95,7 @@ export class ReservasComponent implements OnInit {
       });
   }
   getAllReservations(){
+    alert("test");
     let date = new Date(this.reserva.date).getTime();
     this.conex.getAllReservations(date,sessionStorage.getItem("token")).subscribe(
       (res) => {
