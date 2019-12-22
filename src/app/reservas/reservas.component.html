@@ -3,6 +3,7 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Fecha</label>
       <div class="col-sm-10">
+       <!-- <input type="date"  [(ngModel)]="reserva.date" (change)="getAllReservations()" name="date"/>-->
         <input [matDatepicker]="myDatepicker" [(ngModel)]="reserva.date" (dateChange)="getAllReservations()"  name="date" >
         <mat-datepicker-toggle [for]="myDatepicker"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker></mat-datepicker>
@@ -11,14 +12,25 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Nº de Pista</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control"  [(ngModel)]="reserva.pista"  name="pista" placeholder="Identificar la pista">
+        <input type="number" min="1" max="4" class="form-control"  [(ngModel)]="reserva.pista"  name="pista" (change)="checkPista()" placeholder="Identificar la pista">
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Hora: </label>
+      <label class="col-sm-2 col-form-label">Hora de Inicio: </label>
       <div class="col-sm-10">
-        <input type="time"  min="10:00" max="21:00"  class="form-control" [(ngModel)]="reserva.hour" name="hour">
+        <input type="time"  min="10:00" max="21:00"  class="form-control" [(ngModel)]="reserva.hour"  name="hour">
       </div>
+    </div>
+    <div>
+      <ng-container *ngIf="countReservations>=4" >
+        <div class="alert alert-danger">
+          Ya tienes 4 reservas, si te apetece agregar una nueva debes eliminar alguna de las anteriores.
+        </div>
+      </ng-container>
+      <ng-container *ngIf="countReservations<4" >
+        <button type="button" class="btn btn-outline-success" (click)="postReservation()">Enviar</button>
+      </ng-container>
+
     </div>
   </form>
 

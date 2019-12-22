@@ -7,7 +7,7 @@ describe('RegisterComponent', () => {
   let fixture: ComponentFixture<RegisterComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  TestBed.configureTestingModule( {
       declarations: [ RegisterComponent ]
     })
     .compileComponents();
