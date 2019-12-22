@@ -22,13 +22,15 @@ export class ReservasComponent implements OnInit {
   dataSourceWhole = ELEMENT_DATA;
   myReservations: reserve[] = [];
 
-  constructor(private conex: ReserveRestService, private  snackBar: MatSnackBar) { }
-
-  ngOnInit() {
-    this.getReservations();
-  }
-
   selection = new SelectionModel<reserve>(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.forEach(row => this.selection.select(row));
+  }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -36,19 +38,18 @@ export class ReservasComponent implements OnInit {
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.forEach(row => this.selection.select(row));
-  }
   checkboxLabel(row?: reserve): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.rsvId + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.rsvId}`;
   }
 
+  constructor(private conex: ReserveRestService, private  snackBar: MatSnackBar) { }
+
+  ngOnInit() {
+    this.getReservations();
+  }
 
   getReservations(){
     this.conex.getReservations(sessionStorage.getItem("token")).subscribe(

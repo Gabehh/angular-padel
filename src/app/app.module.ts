@@ -17,7 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {UserRestService} from './shared/services/user-rest.service';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatTableModule} from '@angular/material';
+import {MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatTableModule} from '@angular/material';
 import { ReservasComponent } from './reservas/reservas.component';
 import { JwtModule } from "@auth0/angular-jwt";
 
@@ -53,10 +53,10 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ["example.com"],
-        blacklistedRoutes: ["example.com/examplebadroute/"]
+        whitelistedDomains: ['example.com'],
+        blacklistedRoutes: ['example.com/examplebadroute/']
       }
-    })
+    }), MatCheckboxModule
   ],
   providers: [UserRestService],
   bootstrap: [AppComponent]

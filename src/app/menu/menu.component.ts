@@ -22,7 +22,6 @@ export class MenuComponent implements OnInit {
     }
     else{
       this.appearLogin = true;
-
     }
 
     let isNewUser = sessionStorage.getItem("isNewUser");
