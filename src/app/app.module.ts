@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -34,6 +34,7 @@ import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule} from '@angu
     LoginComponent
   ],
   imports: [
+    BrowserModule, ReactiveFormsModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -41,9 +42,7 @@ import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule} from '@angu
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-
-
+    MatNativeDateModule
   ],
   providers: [UserRestService],
   bootstrap: [AppComponent]
