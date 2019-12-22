@@ -5,7 +5,7 @@
         <h5 class="modal-title">Registro</h5>
       </div>
       <div class="modal-body">
-        <form (submit)="addUser()">
+        <form #ngForm="ngForm" (ngSubmit)="addUser()">
           <div class="form-group row">
             <label class="col-sm-4 col-form-label">Usuario</label>
             <div class="col-sm-8">
@@ -69,10 +69,9 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-outline-success" id="signIn" >Enviar</button>
+            <button type="submit"  [disabled]="!ngForm.valid" class="btn btn-outline-success" id="signIn" >Enviar</button>
             <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
           </div>
-
         </form>
       </div>
     </div>

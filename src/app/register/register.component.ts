@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserRestService} from '../shared/services/user-rest.service';
 import {MatSnackBar} from '@angular/material';
-import {LoginComponent} from '../login/login.component';
-import DateTimeFormat = Intl.DateTimeFormat;
-import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-register',

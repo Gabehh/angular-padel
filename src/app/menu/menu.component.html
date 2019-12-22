@@ -15,6 +15,9 @@
         <a class="nav-link" routerLink="servicios">Servicios</a>
       </li>
       <li class="nav-item" id="sectionReserva">
+        <ng-container *ngIf="!appearLogin" >
+          <a class="nav-link" routerLink="reservas">Reservas</a>
+        </ng-container>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">

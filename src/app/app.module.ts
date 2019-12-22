@@ -17,7 +17,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {UserRestService} from './shared/services/user-rest.service';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule} from '@angular/material';
+import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatTableModule} from '@angular/material';
+import { ReservasComponent } from './reservas/reservas.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule} from '@angu
     InstalacionesComponent,
     ServiciosComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ReservasComponent
   ],
   imports: [
     BrowserModule, ReactiveFormsModule,
@@ -42,7 +44,7 @@ import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule} from '@angu
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule, MatTableModule
   ],
   providers: [UserRestService],
   bootstrap: [AppComponent]
