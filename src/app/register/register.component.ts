@@ -60,9 +60,9 @@ export class RegisterComponent implements OnInit {
 
   login() {
     this.conex.loginUser(this.newUser.username,this.newUser.password).subscribe(
-      (res: Response) => {
+      (res) => {
         // @ts-ignore
-        sessionStorage.setItem("token", res);
+        sessionStorage.setItem("token", res.headers.get("Authorization"));
         sessionStorage.setItem("isNewUser", "true");
         window.location.reload();
       },

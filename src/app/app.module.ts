@@ -19,7 +19,11 @@ import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatTableModule} from '@angular/material';
 import { ReservasComponent } from './reservas/reservas.component';
+import { JwtModule } from "@auth0/angular-jwt";
 
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +48,15 @@ import { ReservasComponent } from './reservas/reservas.component';
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule, MatTableModule
+    MatNativeDateModule, MatTableModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["example.com"],
+        blacklistedRoutes: ["example.com/examplebadroute/"]
+      }
+    })
   ],
   providers: [UserRestService],
   bootstrap: [AppComponent]

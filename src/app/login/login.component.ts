@@ -19,9 +19,9 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.conex.loginUser(this.user.username,this.user.password).subscribe(
-      (res: Response) => {
+      (res) => {
         // @ts-ignore
-        sessionStorage.setItem("token", res);
+        sessionStorage.setItem("token", res.headers.get("Authorization"));
         window.location.reload();
       },
       (res)=> {

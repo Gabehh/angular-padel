@@ -25,7 +25,7 @@ export class UserRestService {
   loginUser(user : string, password: string) {
     let headers: HttpHeaders;
     headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.get(this.url+"/login?username="+user+"&password="+password, {headers});
+    return this.http.get(this.url+"/login?username="+user+"&password="+password, {headers,observe:'response'});
   }
 
 }

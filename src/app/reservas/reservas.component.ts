@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ReserveRestService} from '../shared/services/reserve-rest.service';
 import {reserve} from '../shared/model/reserve.model';
+import {SelectionModel} from '@angular/cdk/collections';
 
 import {MatSnackBar} from '@angular/material';
 
-export interface PeriodicElement {
-  pista: string;
-  id: number;
-  fecha: string;
-  hora: string;
-
-}
 const ELEMENT_DATA: reserve[] = [
 ];
 
@@ -34,12 +28,37 @@ export class ReservasComponent implements OnInit {
     this.getReservations();
   }
 
+  selection = new SelectionModel<reserve>(true, []);
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.forEach(row => this.selection.select(row));
+  }
+  checkboxLabel(row?: reserve): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.rsvId + 1}`;
+  }
+
+
   getReservations(){
     this.conex.getReservations(sessionStorage.getItem("token")).subscribe(
-      (res:reserve[]) => {
-        this.myReservations = res;
+      (res) => {
+        let token = res.headers.get("Authorization");
+        sessionStorage.setItem("token",token);
+        let body = res.body;
+        this.myReservations = <reserve[]>body;
         this.dataSource = this.myReservations;
-        this.countReservations = res.length;
+        this.countReservations = this.myReservations.length;
       },
       (error) => {
         this.snackBar.open(error.error,"error",{duration:7000});
@@ -48,8 +67,11 @@ export class ReservasComponent implements OnInit {
   getAllReservations(){
     let date = new Date(this.reserva.date).getTime();
     this.conex.getAllReservations(date,sessionStorage.getItem("token")).subscribe(
-      (res:reserve[]) => {
-        this.myReservations = res;
+      (res) => {
+        let token = res.headers.get("Authorization");
+        sessionStorage.setItem("token",token);
+        let body = res.body;
+        this.myReservations = <reserve[]>body;
         this.dataSourceWhole = this.myReservations;
       },
       (error) => {
@@ -63,9 +85,6 @@ export class ReservasComponent implements OnInit {
       this.reserva.pista = 1;
     }
   }
-
-
-
   postReservation(){
     let date = new Date(this.reserva.date).setHours(Number(this.reserva.hour.split(":")[0]),Number(this.reserva.hour.split(":")[1]));
     if(Number(this.reserva.hour.split(":")[0]) > 20 || Number(this.reserva.hour.split(":")[0])<10 || Number(this.reserva.hour.split(":")[1])!=0){
@@ -78,12 +97,17 @@ export class ReservasComponent implements OnInit {
       this.newReservation.rsvdatetime = date;
       this.newReservation.courtid = Number(this.reserva.pista);
       this.conex.postReservation(this.newReservation,sessionStorage.getItem("token")).subscribe(
-        (res:reserve[]) => {
-          this.myReservations = res;
+        (res) => {
+          let token = res.headers.get("Authorization");
+          if(token!=null){
+            sessionStorage.setItem("token",token);
+          }
+          let body = res.body;
+          this.myReservations = <reserve[]>body;
           this.dataSourceWhole = this.myReservations;
           this.snackBar.open("Reserva realizada.","Success",{duration:5000});
           this.getReservations();
-          this.getAllReservations()
+          this.getAllReservations();
         },
         (error) => {
           this.snackBar.open(error.error,"error",{duration:7000});
