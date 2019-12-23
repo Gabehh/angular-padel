@@ -5,6 +5,7 @@ import {reserve} from '../shared/model/reserve.model';
 
 import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
+import {delay} from 'rxjs/operators';
 
 const ELEMENT_DATA: reserve[] = [
 ];
@@ -18,8 +19,8 @@ export class ReservasComponent implements OnInit {
   countReservations = 0;
   reserva = {pista: 1, date: "", hour: ""};
   newReservation = {courtid: 0,rsvdatetime : 0 };
-  displayedColumns: string[] = ['rsvId', 'courtId', 'rsvdateTime', 'rsvday', 'rsvtime'];
-  displayedColumnsMy: string[] = ['select','rsvId', 'courtId', 'rsvdateTime', 'rsvday', 'rsvtime'];
+  displayedColumns: string[] = ['rsvId', 'courtId',  'rsvday', 'rsvtime'];
+  displayedColumnsMy: string[] = ['select','rsvId', 'courtId', 'rsvday', 'rsvtime'];
   dataSourceWhole = ELEMENT_DATA;
   myReservations: reserve[] = [];
 
@@ -52,6 +53,11 @@ export class ReservasComponent implements OnInit {
   constructor(private conex: ReserveRestService, private  snackBar: MatSnackBar) { }
 
   ngOnInit() {
+
+    if( sessionStorage.getItem("token") == null){
+      window.location.href = "index"
+    }
+
     this.getReservations();
   }
 
@@ -64,16 +70,16 @@ export class ReservasComponent implements OnInit {
             if(token!=null){
               sessionStorage.setItem("token",token);
             }
+            this.getReservations();
+            this.getAllReservations();
           },
           (error) => {
             this.snackBar.open(error.error, "error", {duration: 7000});
           }
         )
       });
-      this.selection.deselect();
+      this.selection.clear();
       this.snackBar.open("Reservas eliminadas", "Success", {duration: 2000});
-      this.getReservations();
-      this.getAllReservations();
     }
     else{
       this.snackBar.open("Seleccione al menos una reserva", "Alerta", {duration: 2000});
@@ -95,7 +101,6 @@ export class ReservasComponent implements OnInit {
       });
   }
   getAllReservations(){
-    alert("test");
     let date = new Date(this.reserva.date).getTime();
     this.conex.getAllReservations(date,sessionStorage.getItem("token")).subscribe(
       (res) => {
